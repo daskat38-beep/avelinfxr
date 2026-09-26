@@ -32,6 +32,28 @@ TOOLS = [
     {
         "type": "function",
         "function": {
+            "name": "get_royalties",
+            "description": "Ambil data total royalti, royalti artis terbesar dan terkecil."
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "get_payments",
+            "description": "Ambil data pembayaran (total dibayar, total tertunda, rincian pembayaran terbesar/terkecil)."
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "get_performance",
+            "description": "Ambil performa artis berdasarkan total streaming tertinggi hingga terendah."
+        }
+    },
+
+    {
+        "type": "function",
+        "function": {
             "name": "get_inactive_artists",
             "description": "Cari artis yang tidak aktif.",
             "parameters": {
@@ -118,6 +140,12 @@ async def process_user_message(admin_id: int, user_message: str) -> dict:
             # Read Tools -> Boleh langsung jalan
             if func_name == "get_dashboard_summary":
                 result = await get_dashboard_summary()
+            elif func_name == "get_royalties":
+                result = await get_royalties()
+            elif func_name == "get_payments":
+                result = await get_payments()
+            elif func_name == "get_performance":
+                result = await get_performance()
             elif func_name == "get_inactive_artists":
                 result = await get_inactive_artists(func_args.get("days", 10))
             else:
