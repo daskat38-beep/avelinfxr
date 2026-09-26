@@ -13,9 +13,7 @@ export async function GET(req: Request) {
       );
     }
 
-    const totalArtists = await prisma.user.count({
-      where: { role: "ARTIST" }
-    });
+    const totalArtists = await prisma.artist.count();
 
     const totalReleases = await prisma.release.count();
 
@@ -36,3 +34,4 @@ export async function GET(req: Request) {
     );
   }
 }
+
