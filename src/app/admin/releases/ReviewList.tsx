@@ -31,11 +31,13 @@ export interface TrackItem {
   title: string;
   audioUrl: string;
   isrc?: string | null;
+  upc?: string | null;
   composer?: string | null;
   producer?: string | null;
-    lyrics?: string | null;
-    tiktokClipStart?: string | null;
-  }
+  lyrics?: string | null;
+  tiktokClipStart?: string | null;
+  featuredArtist?: string | null;
+}
 
 export interface ReviewItem {
   id: string;
@@ -602,6 +604,7 @@ export default function ReviewList({ initialReleases }: { initialReleases: Revie
                                   UPC: {track.upc}
                                 </span>
                               )}
+                              {track.featuredArtist && <span className="block text-[11px]">Feat: <span className="text-slate-600 font-medium">{track.featuredArtist}</span></span>}
                               {track.composer && <span className="block text-[11px]">Composer: <span className="text-slate-600 font-medium">{track.composer}</span></span>}
                               {track.producer && <span className="block text-[11px]">Producer: <span className="text-slate-600 font-medium">{track.producer}</span></span>}
                               {track.tiktokClipStart && <span className="block text-[11px]">TikTok Clip: <span className="text-slate-600 font-medium">{track.tiktokClipStart}</span></span>}

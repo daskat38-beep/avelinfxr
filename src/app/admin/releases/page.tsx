@@ -51,6 +51,7 @@ export default async function AdminReleasesPage() {
         isrc: t.isrc || null,
         upc: t.upc || null,
         tiktokClipStart: t.tiktokClipStart || null,
+        featuredArtist: t.featuredArtist || null,
       }))
     };
   });

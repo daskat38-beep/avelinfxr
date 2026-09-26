@@ -52,6 +52,7 @@ export default async function MyReleasesPage() {
       composer: t.composer || null,
       producer: t.producer || null,
       lyrics: t.lyrics || null,
+      featuredArtist: t.featuredArtist || null,
     })),
     artist: r.artist ? { name: r.artist.stageName } : null,
   }));

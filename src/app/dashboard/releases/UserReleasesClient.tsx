@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
@@ -30,6 +30,7 @@ export interface TrackItem {
   composer?: string | null;
   producer?: string | null;
   lyrics?: string | null;
+  featuredArtist?: string | null;
 }
 
 export interface ReleaseItem {
@@ -545,7 +546,7 @@ export default function UserReleasesClient({
                             {idx + 1}. {track.title}
                           </p>
                           <p className="text-xs text-slate-400 truncate">
-                            {track.isrc ? `ISRC: ${track.isrc}` : "ISRC Auto-Generated"}
+                            {track.featuredArtist ? `Feat: ${track.featuredArtist} • ` : ''}{track.isrc ? `ISRC: ${track.isrc}` : "ISRC Auto-Generated"}
                           </p>
                         </div>
                       </div>
