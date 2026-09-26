@@ -19,6 +19,32 @@ export default async function UserDashboardPage() {
 
   const artistIds = user?.artists.map(a => a.id) || [];
 
+  if (artistIds.length > 0) {
+    try {
+      const thirtyMinutesAgo = new Date(Date.now() - 30 * 60 * 1000);
+      const recentLog = await prisma.activityLog.findFirst({
+        where: {
+          userId: session.user.id,
+          action: "DASHBOARD_ACCESS",
+          createdAt: {
+            gte: thirtyMinutesAgo
+          }
+        }
+      });
+
+      if (!recentLog) {
+        await prisma.activityLog.create({
+          data: {
+            userId: session.user.id,
+            action: "DASHBOARD_ACCESS"
+          }
+        });
+      }
+    } catch (error) {
+      console.error("Failed to log dashboard access:", error);
+    }
+  }
+
   const totalReleases = artistIds.length > 0 ? await prisma.release.count({ where: { artistId: { in: artistIds }, status: 'APPROVED' } }) : 0;
   const pendingReleases = artistIds.length > 0 ? await prisma.release.count({ where: { artistId: { in: artistIds }, status: 'PENDING' } }) : 0;
 
@@ -26,18 +52,18 @@ export default async function UserDashboardPage() {
     _sum: { totalRevenue: true },
     where: { artistId: { in: artistIds } }
   }) : { _sum: { totalRevenue: 0 } };
-  
+
   const totalRevenue = totalRevenueData._sum.totalRevenue || 0;
-  
+
   const withdrawRequests = await prisma.withdrawRequest.findMany({
     where: { userId: session.user.id }
   });
-  
+
   const totalWithdrawn = withdrawRequests.filter(req => req.status === 'PAID').reduce((acc, req) => acc + req.amount, 0);
   const pendingWithdrawal = withdrawRequests.filter(req => req.status === 'PENDING').reduce((acc, req) => acc + req.amount, 0);
-  
+
   const availableBalance = totalRevenue - totalWithdrawn - pendingWithdrawal;
-  
+
   const royalties = artistIds.length > 0 ? await prisma.royalty.findMany({
     where: { artistId: { in: artistIds } }
   }) : [];
