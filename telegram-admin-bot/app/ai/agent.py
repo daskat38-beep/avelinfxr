@@ -4,6 +4,7 @@ from openai import AsyncOpenAI
 from app.config import settings
 from app.ai.prompts import SYSTEM_PROMPT
 from app.tools.dashboard import get_dashboard_summary
+from app.tools.stats import get_royalties, get_payments, get_performance
 from app.tools.artists import get_inactive_artists, send_artist_reminder, suspend_artist
 from app.tools.releases import get_pending_releases
 from app.bot.confirmations import create_confirmation
@@ -141,3 +142,4 @@ async def process_user_message(admin_id: int, user_message: str) -> dict:
     except Exception as e:
         logger.error(f"LLM Error: {e}")
         return {"type": "text", "content": "Waduh boskuh, otak AI lagi pusing (Cek koneksi API LLM)."}
+
