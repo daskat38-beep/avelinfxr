@@ -9,11 +9,7 @@ const prisma = new PrismaClient();
 
 export default async function AdminRoyaltiesPage() {
   const artists = await prisma.artist.findMany({
-    where: {
-      releases: {
-        some: {} // Only include artists who have at least one release
-      }
-    },
+    
     include: { releases: true },
     orderBy: { stageName: 'asc' }
   });
@@ -188,4 +184,5 @@ export default async function AdminRoyaltiesPage() {
     </div>
   );
 }
+
 
